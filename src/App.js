@@ -1,25 +1,39 @@
-import logo from './logo.svg';
-import './App.css';
+import Button from './Button';
+import Board from "./Board";
+import { useState } from 'react';
+
+function random(n) {
+  return Math.ceil(Math.random() * n);
+}
 
 function App() {
+  const [myHistory, setMyHistory] = useState([]);
+  const [otherHistory, setOtherHistory] = useState([]);
+
+  const handleRollClick = () => {
+    const nextMyNum = random(6);
+    const nextOtherNum = random(6);
+    setMyHistory([...myHistory, nextMyNum]);
+    setOtherHistory([...otherHistory, nextOtherNum]);
+  };
+
+  const handleClearClick = () => {
+    setMyHistory([]);
+    setOtherHistory([]);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <div>
+        <Button color="blue"onClick={handleRollClick}>던지기</Button>
+        <Button color="red" onClick={handleClearClick}>처음부터</Button>
+      </div>
+      <div>
+        <Board name="나" color="blue" gameHistory={myHistory}/>
+        <Board name="상대" color="red" gameHistory={otherHistory}/>
+      </div>
     </div>
-  );
+  )
 }
 
 export default App;
